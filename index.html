@@ -110,6 +110,41 @@
   .chip:hover { color: var(--off-white); border-color: rgba(201,160,61,0.4); }
   .chip.active { color: #000; background: linear-gradient(135deg, var(--gold-light), var(--gold-main)); border-color: transparent; }
 
+  /* ---------- Brands marquee ---------- */
+  .brands { margin-top: 56px; }
+  .brands h2 {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 12.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-gold);
+  }
+  .brands h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+  .marquee {
+    overflow: hidden; margin-top: 14px; padding: 22px 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .marquee-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+  .marquee-track ul { display: flex; align-items: center; gap: 76px; padding-right: 76px; list-style: none; }
+  .logo { display: flex; align-items: center; gap: 12px; height: 64px; opacity: 0.6; transition: opacity .3s, filter .3s; }
+  .logo:hover { opacity: 1; filter: drop-shadow(0 0 14px rgba(201,160,61,0.5)); }
+  /* logos render as white silhouettes; --h balances each logo's optical size */
+  .logo img { display: block; height: var(--h); width: auto; filter: brightness(0) invert(1); }
+  .lockup span { display: flex; flex-direction: column; font-weight: 700; font-size: 19px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; }
+  .lockup small { font-size: 8.5px; font-weight: 600; letter-spacing: 0.2em; margin-bottom: 5px; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  @media (hover: hover) { .marquee:hover .marquee-track { animation-play-state: paused; } }
+  @media (max-width: 719px) {
+    .brands { margin-top: 44px; }
+    .marquee-track ul { gap: 52px; padding-right: 52px; }
+    .logo img { height: calc(var(--h) * 0.8); }
+    .lockup span { font-size: 15px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { -webkit-mask-image: none; mask-image: none; }
+    .marquee-track { animation: none; width: auto; }
+    .marquee-track ul { flex: 1; flex-wrap: wrap; justify-content: center; gap: 28px 56px; padding-right: 0; }
+    .marquee-track ul[aria-hidden] { display: none; }
+  }
+
   /* ---------- Projects grid ---------- */
   .grid {
     display: grid; grid-template-columns: 1fr; gap: 22px; padding: 28px 0 30px;
@@ -166,6 +201,7 @@
   .t-web   { background: radial-gradient(120% 100% at 60% 0%, rgba(236,212,121,0.18), rgba(8,7,4,0.9)); }
   .t-tool  { background: radial-gradient(120% 100% at 40% 0%, rgba(201,160,61,0.14), rgba(8,7,4,0.9)); }
   .t-mobile { background: radial-gradient(120% 100% at 50% 0%, rgba(236,212,121,0.12), rgba(8,7,4,0.92)); }
+  .t-erp   { background: radial-gradient(120% 100% at 30% 0%, rgba(201,160,61,0.18), rgba(8,7,4,0.9)); }
   .thumb .shot.contain { object-fit: contain; object-position: center; background: #0a0a0a; }
 
   .body { padding: 24px 24px 26px; display: flex; flex-direction: column; flex: 1; }
@@ -234,22 +270,74 @@
       <h1>Real systems we've shipped for <span class="gold">AI-powered business growth.</span></h1>
       <p>A selection of voice agents, chat agents, CRMs, apps, and custom automations Kaizen has designed, built, and deployed for operators — most live in 14–20 days.</p>
     </div>
+
+    <!-- Brands we work with -->
+    <div class="brands reveal">
+      <h2>Brands we work with</h2>
+      <div class="marquee">
+        <div class="marquee-track" id="brands-track">
+          <ul>
+            <li class="logo"><img src="images/brands/360-skin-clinic.png" alt="360 Skin Clinic" width="180" height="180" style="--h: 58px" /></li>
+            <li class="logo"><img src="images/brands/koxa.png" alt="KOXA by Dr. Cherry" width="362" height="180" style="--h: 52px" /></li>
+            <li class="logo"><img src="images/brands/360-aesthetics.png" alt="360 Aesthetics" width="163" height="180" style="--h: 60px" /></li>
+            <li class="logo"><img src="images/brands/beyond-borders.png" alt="Beyond Borders" width="152" height="75" style="--h: 46px" /></li>
+            <li class="logo lockup"><img src="images/brands/360-mark.png" alt="" width="163" height="180" style="--h: 46px" /><span><small>360 Skin Clinic</small>Negombo</span></li>
+            <li class="logo"><img src="images/brands/kirsche.png" alt="Kirsche" width="777" height="180" style="--h: 29px" /></li>
+            <li class="logo"><img src="images/brands/doctor-ceylon.png" alt="Doctor Ceylon" width="332" height="180" style="--h: 56px" /></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <div class="filters" role="tablist" aria-label="Filter projects">
       <button class="chip active" data-filter="all">All work</button>
       <button class="chip" data-filter="voice">Voice agents</button>
       <button class="chip" data-filter="chat">Chatbots</button>
       <button class="chip" data-filter="web">Websites</button>
       <button class="chip" data-filter="mobile">Mobile apps</button>
+      <button class="chip" data-filter="erp">ERP systems</button>
       <button class="chip" data-filter="tool">Tools</button>
       <button class="chip" data-filter="auto">Automations</button>
     </div>
 
     <div class="grid" id="grid">
 
+      <!-- Beyond Borders website -->
+      <article class="card reveal" data-cat="web">
+        <div class="thumb t-web">
+          <img class="shot" src="images/work/beyond-borders-web.webp" alt="Beyond Borders travel website" loading="lazy" />
+          <div class="shade" aria-hidden="true"></div>
+          <span class="cat">Website</span>
+        </div>
+        <div class="body">
+          <h3>Beyond Borders</h3>
+          <p>A cinematic site for a Colombo travel company — tours, destination guides, and enquiries, plus secure payment links, multi-language support, and a staff dashboard for managing content.</p>
+          <div class="tags"><span>Next.js</span><span>Supabase</span><span>Payment links</span></div>
+          <div class="metrics">
+          </div>
+        </div>
+      </article>
+
+      <!-- 360 Group ERP -->
+      <article class="card reveal" data-cat="erp">
+        <div class="thumb t-erp">
+          <img class="shot" src="images/work/360-erp.webp" alt="360 Group ERP daily activity dashboard" loading="lazy" />
+          <div class="shade" aria-hidden="true"></div>
+          <span class="cat">ERP System</span>
+        </div>
+        <div class="body">
+          <h3>360 Group ERP</h3>
+          <p>One ERP running five brands for Sri Lanka's 360 Group — front desk, appointments, POS, treatments, and approvals, with role-based access for every team and consolidated group finance.</p>
+          <div class="tags"><span>ERPNext</span><span>Frappe Healthcare</span><span>Multi-brand</span></div>
+          <div class="metrics">
+          </div>
+        </div>
+      </article>
+
       <!-- KaizenAI website -->
       <article class="card reveal" data-cat="web">
         <div class="thumb t-web">
-          <img class="shot" src="kaizen-website.png" alt="KaizenAI marketing website" loading="lazy" />
+          <img class="shot" src="images/work/kaizen-website.webp" alt="KaizenAI marketing website" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Website</span>
         </div>
@@ -265,7 +353,7 @@
       <!-- Amadeus website -->
       <article class="card reveal" data-cat="web">
         <div class="thumb t-web">
-          <img class="shot" src="amadeus-web.png" alt="Amadeus website" loading="lazy" />
+          <img class="shot" src="images/work/amadeus-web.webp" alt="Amadeus website" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Website</span>
         </div>
@@ -281,7 +369,7 @@
       <!-- NexaFlow website -->
       <article class="card reveal" data-cat="web">
         <div class="thumb t-web">
-          <img class="shot" src="nexaflow.png" alt="NexaFlow portfolio tracker website" loading="lazy" />
+          <img class="shot" src="images/work/nexaflow.webp" alt="NexaFlow portfolio tracker website" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Website</span>
         </div>
@@ -297,7 +385,7 @@
       <!-- Metra Wealth website -->
       <article class="card reveal" data-cat="web">
         <div class="thumb t-web">
-          <img class="shot" src="metrawealth-web.png" alt="Metra Wealth finance dashboard website" loading="lazy" />
+          <img class="shot" src="images/work/metrawealth-web.webp" alt="Metra Wealth finance dashboard website" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Website</span>
         </div>
@@ -313,7 +401,7 @@
       <!-- Code Audit tool -->
       <article class="card reveal" data-cat="tool">
         <div class="thumb t-tool">
-          <img class="shot" src="codeaudit.png" alt="AI code security audit tool" loading="lazy" />
+          <img class="shot" src="images/work/codeaudit.webp" alt="AI code security audit tool" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Tool</span>
         </div>
@@ -329,7 +417,7 @@
       <!-- Metra Wealth mobile app -->
       <article class="card reveal" data-cat="mobile">
         <div class="thumb t-mobile">
-          <img class="shot contain" src="metrawealth-mobile.jpg" alt="Metra Wealth mobile investment app" loading="lazy" />
+          <img class="shot contain" src="images/work/metrawealth-mobile.jpg" alt="Metra Wealth mobile investment app" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Mobile App</span>
         </div>
@@ -345,7 +433,7 @@
       <!-- Lotus Dental -->
       <article class="card reveal" data-cat="voice">
         <div class="thumb t-voice">
-          <img class="shot" src="voiceagent.png" alt="AI voice receptionist interface" loading="lazy" />
+          <img class="shot" src="images/work/voiceagent.webp" alt="AI voice receptionist interface" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Voice Agent</span>
         </div>
@@ -361,7 +449,7 @@
       <!-- Glow Aesthetics -->
       <article class="card reveal" data-cat="chat">
         <div class="thumb t-chat">
-          <img class="shot" src="chatbot.png" alt="AI chatbot conversation interface" loading="lazy" />
+          <img class="shot" src="images/work/chatbot.webp" alt="AI chatbot conversation interface" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Chatbot</span>
         </div>
@@ -393,7 +481,7 @@
       <!-- Ecommerce -->
       <article class="card reveal" data-cat="chat">
         <div class="thumb t-chat">
-          <img class="shot" src="chatbot.png" alt="Ecommerce support chatbot interface" loading="lazy" />
+          <img class="shot" src="images/work/chatbot.webp" alt="Ecommerce support chatbot interface" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Chatbot</span>
         </div>
@@ -409,7 +497,7 @@
       <!-- Recruitment -->
       <article class="card reveal" data-cat="auto">
         <div class="thumb t-auto">
-          <img class="shot" src="cvbot.png" alt="Candidate screening dashboard" loading="lazy" />
+          <img class="shot" src="images/work/cvbot.webp" alt="Candidate screening dashboard" loading="lazy" />
           <div class="shade" aria-hidden="true"></div>
           <span class="cat">Automation</span>
         </div>
@@ -460,6 +548,13 @@
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Brands marquee: a hidden copy of the logo list makes the loop seamless
+  const track = document.getElementById('brands-track');
+  const copy = track.firstElementChild.cloneNode(true);
+  copy.setAttribute('aria-hidden', 'true');
+  copy.querySelectorAll('img').forEach(img => img.alt = '');
+  track.append(copy);
 
   // Filtering
   const chips = document.querySelectorAll('.chip');
